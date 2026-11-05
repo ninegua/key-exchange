@@ -1,0 +1,71 @@
+type Signal = 
+ variant {
+   abort;
+   reveal;
+ };
+type SharePackage = 
+ record {
+   branch: Branch;
+   counterparty_ciphertext: blob;
+   counterparty_commitment: blob;
+   encrypted_vetkey: blob;
+   identity: blob;
+ };
+type Session = 
+ record {
+   alice: principal;
+   alice_abort_signal: bool;
+   alice_commit: opt PartyCommit;
+   alice_encrypted_key: opt blob;
+   alice_reveal_signal: bool;
+   bob: principal;
+   bob_abort_signal: bool;
+   bob_commit: opt PartyCommit;
+   bob_encrypted_key: opt blob;
+   bob_reveal_signal: bool;
+   branch: Branch;
+   closed: bool;
+   deadline_ns: int;
+   id: nat;
+ };
+type SchnorrProof = 
+ record {
+   r: blob;
+   z: blob;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: SharePackage;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type PartyCommit = 
+ record {
+   ciphertext_x: blob;
+   ciphertext_y: blob;
+   commitment_x: blob;
+   commitment_y: blob;
+   proof_x: SchnorrProof;
+   proof_y: SchnorrProof;
+   transport_pk: blob;
+ };
+type Branch = 
+ variant {
+   abort;
+   reveal;
+   undecided;
+ };
+service : {
+  commit: (session_id: nat, transport_pk: blob, commitment_x: blob,
+   commitment_y: blob, proof_x: SchnorrProof, proof_y: SchnorrProof,
+   ciphertext_x: blob, ciphertext_y: blob) -> (Result);
+  create_session: (counterparty: principal, deadline_seconds: nat) -> (nat);
+  get_encrypted_share: (session_id: nat) -> (Result_1) query;
+  get_session: (session_id: nat) -> (opt Session) query;
+  get_verification_key: () -> (blob);
+  signal: (session_id: nat, signal: Signal) -> (Result);
+}

@@ -1,0 +1,27 @@
+canisters:
+  - name: key_exchange
+    build:
+      steps:
+        - type: script
+          commands:
+            - vessel install
+            - $(vessel bin)/moc --idl src/main.mo $(vessel sources) -o key_exchange.did
+            - $(vessel bin)/moc src/main.mo $(vessel sources) -o "$ICP_WASM_OUTPUT_PATH"
+    settings:
+      environment_variables:
+        VETKD_KEY_NAME: "test_key_1"
+
+networks:
+  - name: local
+    mode: managed
+
+  - name: test
+    mode: managed
+    gateway:
+      bind: 127.0.0.1
+      port: 18080
+
+environments:
+  - name: test
+    network: test
+    canisters: [key_exchange]

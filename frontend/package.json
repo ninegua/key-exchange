@@ -1,0 +1,21 @@
+{
+  "name": "key-exchange-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@icp-sdk/auth": "^10.0.2",
+    "@icp-sdk/core": "^6.1.0",
+    "@icp-sdk/vetkeys": "^0.7.0",
+    "@noble/curves": "^1.9.7",
+    "@noble/hashes": "^1.8.0"
+  },
+  "devDependencies": {
+    "@icp-sdk/bindgen": "~0.4.1",
+    "vite": "^6.4.1"
+  }
+}

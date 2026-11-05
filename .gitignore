@@ -1,0 +1,8 @@
+/.vessel/
+/.test/
+/vendor/
+*.wasm
+/.icp/
+/frontend/node_modules/
+/frontend/dist/
+/frontend/src/bindings/
